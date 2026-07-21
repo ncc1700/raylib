@@ -963,6 +963,17 @@ typedef enum {
     NPATCH_THREE_PATCH_HORIZONTAL   // Npatch layout: 3x1 tiles
 } NPatchLayout;
 
+// Cube Faces
+typedef enum _CubeFaces {
+    FACE_FRONT = 1,
+    FACE_BACK = 2,
+    FACE_TOP = 4,
+    FACE_BOTTOM = 8,
+    FACE_RIGHT = 16,
+    FACE_LEFT = 32,
+    FACE_ALL = 63
+} CubeFaces;
+
 // Callbacks to hook some internal functions
 // WARNING: These callbacks are intended for advanced users
 typedef void (*TraceLogCallback)(int logLevel, const char *text, va_list args); // Logging: Redirect trace log messages
@@ -1259,6 +1270,7 @@ RLAPI float GetGesturePinchAngle(void);                       // Get gesture pin
 //------------------------------------------------------------------------------------
 // Camera System Functions (Module: rcamera)
 //------------------------------------------------------------------------------------
+RLAPI void UpdateCameraEx(Camera *camera, int mode, float camMoveSpeeds, float camRotSpeeds, float camPanSpeeds, float camOrbSpeed);
 RLAPI void UpdateCamera(Camera *camera, int mode);            // Update camera position for selected mode
 RLAPI void UpdateCameraPro(Camera *camera, Vector3 movement, Vector3 rotation, float zoom); // Update camera movement/rotation
 
@@ -1582,6 +1594,7 @@ RLAPI void DrawCircle3D(Vector3 center, float radius, Vector3 rotationAxis, floa
 RLAPI void DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color);                              // Draw a color-filled triangle, counter-clockwise vertex order
 RLAPI void DrawTriangleStrip3D(const Vector3 *points, int pointCount, Color color);                      // Draw a triangle strip defined by points
 RLAPI void DrawCube(Vector3 position, float width, float height, float length, Color color);             // Draw cube
+RLAPI void DrawCubeOptimized(Vector3 position, float width, float height, float length, CubeFaces faces, Color color);
 RLAPI void DrawCubeV(Vector3 position, Vector3 size, Color color);                                       // Draw cube (Vector version)
 RLAPI void DrawCubeWires(Vector3 position, float width, float height, float length, Color color);        // Draw cube wires
 RLAPI void DrawCubeWiresV(Vector3 position, Vector3 size, Color color);                                  // Draw cube wires (Vector version)

@@ -442,7 +442,7 @@ Matrix GetCameraProjectionMatrix(Camera *camera, float aspect)
 #if !defined(RCAMERA_STANDALONE)
 // Update camera position for selected mode
 // Camera mode: CAMERA_FREE, CAMERA_FIRST_PERSON, CAMERA_THIRD_PERSON, CAMERA_ORBITAL or CUSTOM
-void UpdateCamera(Camera *camera, int mode)
+void UpdateCameraEx(Camera *camera, int mode, float camMoveSpeeds, float camRotSpeeds, float camPanSpeeds, float camOrbSpeed)
 {
     Vector2 mousePositionDelta = GetMouseDelta();
 
@@ -452,10 +452,10 @@ void UpdateCamera(Camera *camera, int mode)
     bool rotateUp = false;
 
     // Camera speeds based on frame time
-    float cameraMoveSpeed = CAMERA_MOVE_SPEED*GetFrameTime();
-    float cameraRotationSpeed = CAMERA_ROTATION_SPEED*GetFrameTime();
-    float cameraPanSpeed = CAMERA_PAN_SPEED*GetFrameTime();
-    float cameraOrbitalSpeed = CAMERA_ORBITAL_SPEED*GetFrameTime();
+    float cameraMoveSpeed = camMoveSpeeds*GetFrameTime();
+    float cameraRotationSpeed = camRotSpeeds*GetFrameTime();
+    float cameraPanSpeed = camPanSpeeds*GetFrameTime();
+    float cameraOrbitalSpeed = camOrbSpeed*GetFrameTime();
 
     if (mode == CAMERA_CUSTOM) {}
     else if (mode == CAMERA_ORBITAL)
@@ -526,6 +526,10 @@ void UpdateCamera(Camera *camera, int mode)
         if (IsKeyPressed(KEY_KP_ADD)) CameraMoveToTarget(camera, -2.0f);
     }
 }
+void UpdateCamera(Camera *camera, int mode){
+    UpdateCameraEx(camera, mode, CAMERA_MOVE_SPEED, CAMERA_ROTATION_SPEED, CAMERA_PAN_SPEED, CAMERA_ORBITAL_SPEED);
+}
+
 #endif // !RCAMERA_STANDALONE
 
 // Update camera movement, movement/rotation values should be provided by user

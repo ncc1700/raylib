@@ -345,6 +345,96 @@ void DrawCube(Vector3 position, float width, float height, float length, Color c
     rlPopMatrix();
 }
 
+void DrawCubeOptimized(Vector3 position, float width, float height, float length, CubeFaces faces, Color color){
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+
+    rlPushMatrix();
+        rlTranslatef(position.x, position.y, position.z);
+        rlBegin(RL_TRIANGLES);
+            rlColor4ub(color.r, color.g, color.b, color.a);
+            if(faces & FACE_FRONT){
+                // Front face
+                rlNormal3f(0.0f, 0.0f, 1.0f);
+                rlVertex3f(x - width/2, y - height/2, z + length/2);  // Bottom Left
+                rlVertex3f(x + width/2, y - height/2, z + length/2);  // Bottom Right
+                rlVertex3f(x - width/2, y + height/2, z + length/2);  // Top Left
+
+                rlVertex3f(x + width/2, y + height/2, z + length/2);  // Top Right
+                rlVertex3f(x - width/2, y + height/2, z + length/2);  // Top Left
+                rlVertex3f(x + width/2, y - height/2, z + length/2);  // Bottom Right
+            }
+
+            if(faces & FACE_BACK){
+                // Back face
+                rlNormal3f(0.0f, 0.0f, -1.0f);
+                rlVertex3f(x - width/2, y - height/2, z - length/2);  // Bottom Left
+                rlVertex3f(x - width/2, y + height/2, z - length/2);  // Top Left
+                rlVertex3f(x + width/2, y - height/2, z - length/2);  // Bottom Right
+
+                rlVertex3f(x + width/2, y + height/2, z - length/2);  // Top Right
+                rlVertex3f(x + width/2, y - height/2, z - length/2);  // Bottom Right
+                rlVertex3f(x - width/2, y + height/2, z - length/2);  // Top Left
+
+            }
+
+            if(faces & FACE_TOP){
+                   // Top face
+                rlNormal3f(0.0f, 1.0f, 0.0f);
+                rlVertex3f(x - width/2, y + height/2, z - length/2);  // Top Left
+                rlVertex3f(x - width/2, y + height/2, z + length/2);  // Bottom Left
+                rlVertex3f(x + width/2, y + height/2, z + length/2);  // Bottom Right
+
+                rlVertex3f(x + width/2, y + height/2, z - length/2);  // Top Right
+                rlVertex3f(x - width/2, y + height/2, z - length/2);  // Top Left
+                rlVertex3f(x + width/2, y + height/2, z + length/2);  // Bottom Right
+
+            }
+
+            if(faces & FACE_BOTTOM){
+                // Bottom face
+                rlNormal3f(0.0f, -1.0f, 0.0f);
+                rlVertex3f(x - width/2, y - height/2, z - length/2);  // Top Left
+                rlVertex3f(x + width/2, y - height/2, z + length/2);  // Bottom Right
+                rlVertex3f(x - width/2, y - height/2, z + length/2);  // Bottom Left
+
+                rlVertex3f(x + width/2, y - height/2, z - length/2);  // Top Right
+                rlVertex3f(x + width/2, y - height/2, z + length/2);  // Bottom Right
+                rlVertex3f(x - width/2, y - height/2, z - length/2);  // Top Left
+
+            }
+            if(faces & FACE_RIGHT){
+                // Right face
+                rlNormal3f(1.0f, 0.0f, 0.0f);
+                rlVertex3f(x + width/2, y - height/2, z - length/2);  // Bottom Right
+                rlVertex3f(x + width/2, y + height/2, z - length/2);  // Top Right
+                rlVertex3f(x + width/2, y + height/2, z + length/2);  // Top Left
+
+                rlVertex3f(x + width/2, y - height/2, z + length/2);  // Bottom Left
+                rlVertex3f(x + width/2, y - height/2, z - length/2);  // Bottom Right
+                rlVertex3f(x + width/2, y + height/2, z + length/2);  // Top Left
+
+            }
+            if(faces & FACE_LEFT){
+                // Left face
+                rlNormal3f(-1.0f, 0.0f, 0.0f);
+                rlVertex3f(x - width/2, y - height/2, z - length/2);  // Bottom Right
+                rlVertex3f(x - width/2, y + height/2, z + length/2);  // Top Left
+                rlVertex3f(x - width/2, y + height/2, z - length/2);  // Top Right
+
+                rlVertex3f(x - width/2, y - height/2, z + length/2);  // Bottom Left
+                rlVertex3f(x - width/2, y + height/2, z + length/2);  // Top Left
+                rlVertex3f(x - width/2, y - height/2, z - length/2);  // Bottom Right
+            }
+
+        rlEnd();
+    rlPopMatrix();
+}
+
+
+
+
 // Draw cube (Vector version)
 void DrawCubeV(Vector3 position, Vector3 size, Color color)
 {
